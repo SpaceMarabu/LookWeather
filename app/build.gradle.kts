@@ -20,6 +20,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        val weatherKey = property("weatherApiKey")?.toString() ?: error(
+            "You should set apiKey"
+        )
+        buildConfigField("String", "WEATHER_API_KEY", "\"$weatherKey\"")
     }
 
     buildTypes {
@@ -40,6 +44,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
