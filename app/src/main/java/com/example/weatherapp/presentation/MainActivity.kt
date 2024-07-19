@@ -1,32 +1,33 @@
 package com.example.weatherapp.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import com.example.weatherapp.data.network.api.ApiFactory
-import com.example.weatherapp.presentation.ui.theme.WeatherAppTheme
+import com.arkivanov.decompose.defaultComponentContext
+import com.example.weatherapp.di.WeatherApp
+import com.example.weatherapp.domain.usecase.ChangeFavouriteStateUseCase
+import com.example.weatherapp.domain.usecase.SearchCityUseCase
+import com.example.weatherapp.presentation.root.RootComponentImpl
+import com.example.weatherapp.presentation.root.RootContent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var rootComponentFactory: RootComponentImpl.Factory
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        (applicationContext as WeatherApp).applicationComponent.inject(this)
+
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        val component = rootComponentFactory.create(defaultComponentContext())
 
-        val apiService = ApiFactory.apiService
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val currentWeather = apiService.loadCurrentWeather("Kazan")
-            val forecast = apiService.loadForecast("Kazan")
-            val cities = apiService.searchCity("Kazan")
-            Log.d("MainActivity", "$currentWeather,\n $forecast,\n $cities")
-        }
         setContent {
-            WeatherAppTheme {
-            }
+            RootContent(component = component)
         }
     }
 }

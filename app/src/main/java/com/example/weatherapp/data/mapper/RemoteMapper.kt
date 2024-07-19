@@ -28,7 +28,7 @@ fun WeatherForecastDto.toEntity() = Forecast(
     }
 )
 
-fun WeatherCurrentDto.toEntity(): Weather = this.toEntity()
+fun WeatherCurrentDto.toEntity(): Weather = this.current.toEntity()
 
 fun WeatherDto.toEntity() = Weather(
     tempC = tempC,

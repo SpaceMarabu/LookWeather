@@ -1,6 +1,15 @@
 package com.example.weatherapp.presentation.favourite
 
-import com.arkivanov.decompose.ComponentContext
-import com.example.weatherapp.presentation.details.DetailsComponent
+import com.example.weatherapp.domain.entity.City
+import kotlinx.coroutines.flow.StateFlow
 
-interface FavouriteComponent
+interface FavouriteComponent {
+
+    val model: StateFlow<FavouriteStore.State>
+
+    fun onClickSearch()
+
+    fun onClickAddFavourite()
+
+    fun onCityItemClick(city: City)
+}
