@@ -1,5 +1,6 @@
 package com.example.weatherapp.data.network.api
 
+import androidx.compose.ui.text.intl.Locale
 import com.example.weatherapp.BuildConfig
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -10,6 +11,7 @@ object ApiFactory {
 
     private const val BASE_URL = "https://api.weatherapi.com/v1/"
     private const val KEY_PARAM = "key"
+    private const val LANG_PARAM = "lang"
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
@@ -20,6 +22,7 @@ object ApiFactory {
                 .url()
                 .newBuilder()
                 .addQueryParameter(KEY_PARAM, BuildConfig.WEATHER_API_KEY)
+                .addQueryParameter(LANG_PARAM, Locale.current.language)
                 .build()
 
             val newRequest = originalRequest.newBuilder()
